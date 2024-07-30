@@ -56,7 +56,7 @@ resource "aws_security_group" "master" {
 #  subnet_id = "subnet-0fd31cfc06b1857a4"
 #  availability_zone = "ap-south-1a"
   
-  security_groups = [aws_security_group.master.id]
+#  security_groups = [aws_security_group.master.id]
   
 #  tags = {
 #    Name = var.instance_name1

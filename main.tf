@@ -106,7 +106,7 @@ resource "aws_instance" "basic_pentesting" {
 
 # Exploitable Windows
 resource "aws_instance" "Windows-10-Pro" {
-  ami           = "ami-04fc64393c170125d"  # Replace with your desired AMI ID
+  ami           = "ami-0bd4ace20ebdad981"  # Replace with your desired AMI ID
   instance_type = "t3.medium"  # Replace with your desired instance type
   key_name      = aws_key_pair.master-key-pair.key_name
   subnet_id = "subnet-0fd31cfc06b1857a4"
@@ -157,7 +157,7 @@ output "exploitable_Windows_Username" {
   value = "Administrator"
 }
 output "exploitable_Windows_Password" {
-  value = "password@123"
+  value = "DytKaa8zZ-?Ddb*bM*4Pa(;!GU8uXIWz"
 }
 output "note" {
   value = "If unable to perform ssh please wait for sometime \n and try again. \nssh -i path-of-pemfile.pem -N -L 3390:127.0.0.1:3390 kali@[kali_server ip] \n Now connect rdp with 127.0.0.1:3390"

@@ -42,66 +42,10 @@ resource "tls_private_key" "master-key-gen" {
   rsa_bits  = 4096
 }
 
-# Create the Key Pair of kali linux didnt have software
+# Create the Key Pair of Kali Linux didn't have software
 resource "aws_key_pair" "master-key-pair" {
   key_name   = var.keypair_name 
   public_key = tls_private_key.master-key-gen.public_key_openssh
-}
-
-# Kali rdp
-resource "aws_instance" "kali_server" {
-  ami           = "ami-0ce5862ea490b6e2a"  # Replace with your desired AMI ID
-  instance_type = "t3a.2xlarge"  # Replace with your desired instance type
-  key_name      = aws_key_pair.master-key-pair.key_name
-  subnet_id = "subnet-0fd31cfc06b1857a4"
-  availability_zone = "ap-south-1a"
-  
-  security_groups = [aws_security_group.master.id]
-  
-  tags = {
-    Name = var.instance_name1
-  }
-  user_data = <<-EOF
-    #!/bin/bash
-    cd /home/kali
-    sudo chmod +x xfce.sh
-    sudo ./xfce.sh
-    sudo apt install -y dbus-x11
-    sudo systemctl enable xrdp --now
-    echo 'kali:kali' | sudo chpasswd
-    sudo systemctl enable xrdp --now
-    echo 'kali:kali' | sudo chpasswd
-    EOF
-}
-
-# Metasploit
-resource "aws_instance" "metasploit" {
-  ami           = "ami-0f6d9f901bbe83896"  # Replace with your desired AMI ID
-  instance_type = "t3a.small"  # Replace with your desired instance type
-  key_name      = aws_key_pair.master-key-pair.key_name
-  subnet_id = "subnet-0fd31cfc06b1857a4"
-  availability_zone = "ap-south-1a"
-
-  security_groups = [aws_security_group.master.id]
-  
-  tags = {
-    Name = var.instance_name2
-  }
-}
-
-# Basic Pentesting (marlinspike)
-resource "aws_instance" "basic_pentesting" {
-  ami           = "ami-031799a944a78f0ae"  # Replace with your desired AMI ID
-  instance_type = "t3a.small"  # Replace with your desired instance type
-  key_name      = aws_key_pair.master-key-pair.key_name
-  subnet_id = "subnet-0fd31cfc06b1857a4"
-  availability_zone = "ap-south-1a"
-
-  security_groups = [aws_security_group.master.id]
-  
-  tags = {
-    Name = var.instance_name4
-  }
 }
 
 # Exploitable Windows
@@ -115,7 +59,7 @@ resource "aws_instance" "Windows-10-Pro" {
   security_groups = [aws_security_group.master.id]
 
   tags = {
-    Name = var.instance_name3
+    Name = var.instance_name1
   }
 }
 
@@ -130,26 +74,6 @@ output "pem_file_for_ssh" {
   sensitive = true
 }
 
-output "kali_server" {
-  value = aws_instance.kali_server.private_ip
-}
-
-output "metasploit" {
-  value = aws_instance.metasploit.private_ip
-}
-
-output "metasploit_user_and_password" {
-  value = "vagrant"
-}
-
-output "marlinspike" {
-  value = aws_instance.basic_pentesting.private_ip
-}
-
-output "marlinspike_user_and_password" {
-  value = "marlinspike"
-}
-
 output "exploitable_Windows" {
   value = aws_instance.Windows-10-Pro.private_ip
 }
@@ -158,7 +82,4 @@ output "exploitable_Windows_Username" {
 }
 output "exploitable_Windows_Password" {
   value = "DytKaa8zZ-?Ddb*bM*4Pa(;!GU8uXIWz"
-}
-output "note" {
-  value = "If unable to perform ssh please wait for sometime \n and try again. \nssh -i path-of-pemfile.pem -N -L 3390:127.0.0.1:3390 kali@[kali_server ip] \n Now connect rdp with 127.0.0.1:3390"
 }

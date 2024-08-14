@@ -75,7 +75,7 @@ output "pem_file_for_ssh" {
 }
 
 output "exploitable_Windows" {
-  value = aws_instance.Windows-10-Pro.private_ip
+  value = aws_instance.Windows-10-Pro.public_ip
 }
 output "exploitable_Windows_Username" {
   value = "Administrator"

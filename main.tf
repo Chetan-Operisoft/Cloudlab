@@ -51,7 +51,7 @@ resource "aws_key_pair" "master-key-pair" {
 # Exploitable Windows
 resource "aws_instance" "Windows-10-Pro" {
   ami           = "ami-0bd4ace20ebdad981"  # Replace with your desired AMI ID
-  instance_type = "t3.medium"  # Replace with your desired instance type
+  instance_type = "t3a.large"  # Replace with your desired instance type
   key_name      = aws_key_pair.master-key-pair.key_name
   subnet_id = "subnet-0fd31cfc06b1857a4"
   availability_zone = "ap-south-1a"
